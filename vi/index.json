@@ -1,0 +1,64 @@
+[
+{
+	"uri": "/vi/1-intro/",
+	"title": "Giới thiệu",
+	"tags": [],
+	"description": "",
+	"content": "Tình huống Kiểm Tra Chéo Trang Web Với AWS Cognito Trong kịch bản này, chúng ta sẽ có hai trang web khởi chạy trên máy cục bộ (localhost).\n Trang web 1: http://localhost:3000 Trang web 2: http://localhost:3001  Quy Trình Kiểm Tra:   Mở Trang Web 1: Truy cập vào trang web đầu tiên tại địa chỉ http://localhost:3000 và thực hiện đăng nhập.\n  Kiểm Tra Trang Web 2: Sau khi đã đăng nhập vào Trang web 1, mở Trang web 2 tại http://localhost:3001. Mục tiêu ở đây là để xác nhận rằng người dùng không cần phải đăng nhập lại để xem trang chủ của Trang web 2.\n  Đăng Xuất Khỏi Trang Web 1: Thực hiện đăng xuất khỏi Trang web 1.\n  Làm Mới Trang Web 2: Làm mới Trang web 2 để kiểm tra liệu người dùng có vẫn còn quyền truy cập vào trang chủ của Trang web 2 sau khi đã đăng xuất khỏi Trang web 1 hay không.\n  Mục đích của bài kiểm tra này là để đánh giá khả năng quản lý phiên làm việc và xác thực người dùng giữa các trang web sử dụng AWS Cognito. Điều này giúp kiểm tra liệu việc đăng nhập ở một trang web có ảnh hưởng đến trạng thái đăng nhập ở trang web khác không, một yếu tố quan trọng trong việc bảo mật và cung cấp trải nghiệm người dùng liền mạch.\n"
+},
+{
+	"uri": "/vi/",
+	"title": "Triển khai AWS Cognito Cross Sites",
+	"tags": [],
+	"description": "",
+	"content": "Triển khai AWS Cognito Cross Sites Giới thiệu Cognito Amazon Cognito là một nền tảng xác thực danh tính cho các ứng dụng web và di động. Nó bao gồm một danh bạ người dùng, một máy chủ xác thực, và một dịch vụ ủy quyền cho token truy cập OAuth 2.0 và thông tin xác thực AWS. Với Amazon Cognito, bạn có thể xác thực và ủy quyền người dùng từ danh bạ người dùng tích hợp sẵn, từ danh bạ doanh nghiệp của bạn, và từ các nhà cung cấp danh tính người tiêu dùng như Google và Facebook.\nHai thành phần sau đây tạo nên Amazon Cognito. Chúng hoạt động độc lập hoặc kết hợp với nhau, tùy thuộc vào nhu cầu truy cập của người dùng của bạn.\nUser Pool Tạo một user pool khi bạn muốn xác thực và ủy quyền người dùng cho ứng dụng hoặc API của mình. User pools là một thư mục người dùng với cả hai tính năng tự phục vụ và quản lý, tạo người dùng do quản trị viên thực hiện. User pool của bạn có thể là một thư mục độc lập và nhà cung cấp danh tính OIDC (IdP), cũng như là một nhà cung cấp dịch vụ trung gian (SP) cho các nhà cung cấp bên thứ ba về danh tính người lao động và khách hàng. Các IdP SAML 2.0 và OIDC của tổ chức bạn đưa danh tính người lao động vào Cognito và ứng dụng của bạn. Các kho lưu trữ danh tính OAuth 2.0 công cộng như Amazon, Google, Apple và Facebook đưa danh tính khách hàng vào.\nUser pools không yêu cầu tích hợp với một identity pool. Từ một user pool, bạn có thể phát hành trực tiếp token web JSON đã xác thực (JWTs) đến một ứng dụng, máy chủ web, hoặc API.\nIdentity pools Thiết lập một identity pool Amazon Cognito khi bạn muốn cấp quyền truy cập vào tài nguyên AWS cho người dùng đã xác thực hoặc ẩn danh. Identity pool cấp phép chứng chỉ AWS cho ứng dụng của bạn để phục vụ tài nguyên cho người dùng. Bạn có thể xác thực người dùng bằng một nhà cung cấp danh tính đáng tin cậy, như một user pool hoặc dịch vụ SAML 2.0. Nó cũng có thể tùy chọn cấp phép chứng chỉ cho khách vãng lai. Identity pool sử dụng cả kiểm soát truy cập dựa trên vai trò và dựa trên thuộc tính để quản lý quyền truy cập của người dùng vào tài nguyên AWS của bạn.\n"
+},
+{
+	"uri": "/vi/2-infrastructure-setup/",
+	"title": "Chuẩn bị tài nguyên",
+	"tags": [],
+	"description": "",
+	"content": "Chuẩn bị tài nguyên  Tạo thư mục: Đầu tiên, hãy tạo một thư mục mới. Mở Visual Studio Code: Sau khi tạo thư mục, mở nó bằng Visual Studio Code. Mở Terminal: Trong Visual Studio Code, chọn Terminal từ thanh menu để bắt đầu làm việc.  Tạo AWS Access Key Để tạo AWS Access Key, hãy làm theo các bước sau:\n Đăng nhập vào AWS: Truy cập trang quản trị của AWS và đăng nhập với tài khoản của bạn. Chọn IAM: Trong bảng điều khiển AWS, tìm và chọn dịch vụ IAM (Identity and Access Management). Chọn User: Từ menu bên trái, chọn mục Users để xem danh sách các người dùng. Chọn người dùng: Tìm và chọn người dùng mà bạn đã tạo trước đó. Chọn Security Credentials: Trong trang thông tin chi tiết của người dùng, tìm đến mục \u0026lsquo;Security Credentials\u0026rsquo;. Tạo Access Key: chọn Create Access Key để tạo một khóa truy cập mới.  Lưu ý giữ khóa truy cập của bạn an toàn và không chia sẻ nó với người khác.\nSau đó, chọn Command Line Interface (CLI). Chọn NNext.  Cuối cùng, chọn Create access key.  Bạn có thể Download.csv file về máy tính cá nhân. Sau đó, chọn Done.   Quay lại giao diện Visual Studio Code:\n  Thực hiện aws configure và điền thông tin từ file Download.csv.\n  Thực hiện clone repository workshop về máy tính cá nhân.\n  Để clone repository về máy tính cá nhân, ta thực hiện lệnh sau:\n    git clone https://github.com/AWS-First-Cloud-Journey/aws_cognito_cross_sites.git Di chuyển đến đường dẫn của workshop:  cd aws_cognito_cross_sites\rcd cdk Thực hiện cài đặt CDK bằng cách sử dụng npm:  npm install -g aws-cdk Bạn có thể kiểm tra cài đặt CDK thành công hay chưa qua câu lệnh:  cdk --version Sau đó, bạn cài thêm một số thư viện,\u0026hellip; cần thiệt  npm i @types/node Bootstrapping trong AWS CloudFormation. Bootstrappingliên quan đến việc triển khai một mẫu AWS CloudFormation vào một môi trường AWS cụ thể (tài khoản và region). Sử dụng lệnh cdk bootstrap của AWS CDK Toolkit:  cdk bootstrap aws://ACCOUNT-NUMBER-1/REGION-1 aws://ACCOUNT-NUMBER-2/REGION-2 ... Hoàn thành khởi tạo CDK.   Vào giao diện AWS, kiểm tra stack trong CloudFormation.\n Chúng ta sẽ thấy có một stack tên là CDKToolKit Bạn có thể xem và tìm hiểu thêm các thành phần CDK Tool Kit.    Bây giờ đến bước triển khai CDK thông qua lệnh:  npm run cdk deploy  Sau khi chạy lệnh hoàn thành vban5 sẽ thấy kết quả trả về CognitoStack.userPoolClientId và CognitoStack.userPoolId   Để chắc chắn, khởi tạo hạ tầng bằng CDK thành công.\n Bạn vào giao diện AWS và chọn CloudFormation Chọn CognitoStack và xem phần Output. Ghi chú lại giá trị userPoolClinetId và uuserPoolId    "
+},
+{
+	"uri": "/vi/3-note-code/",
+	"title": "Giải thích code",
+	"tags": [],
+	"description": "",
+	"content": "Giải thích về codde:  Module trong package.json với cross-domain-storage để trao đổi token giữa hai trang web:  \u0026#34;dependencies\u0026#34;: {\r...\r\u0026#34;amazon-cognito-identity-js\u0026#34;: \u0026#34;^5.2.9\u0026#34;,\r\u0026#34;cross-domain-storage\u0026#34;: \u0026#34;^2.0.7\u0026#34;,\r...\r} Hàm signOut để vô hiệu hóa tất cả các token do Cognito cung cấp trong trường hợp người dùng đăng xuất:  export function signOut(callbacks: { onSuccess: (msg: string) =\u0026gt; void; onFailure: (err: Error) =\u0026gt; void }) {\rif (currentUser) {\r//currentUser.signOut()\rcurrentUser.globalSignOut(callbacks)\r}\r} Xử lý token session từ web1 sang web2 trong trường hợp đăng nhập tại web1 và token sẽ được thiết lập cho web2 với nguồn được cho phép trên web2 trong signIn.ts của web1:  const handleSendToken = () =\u0026gt; {\r// send token\rif(!localStorage) return\rvar tokenStorage = createGuest(\u0026#39;http://localhost:3001/accessStorage\u0026#39;);\rObject.keys(localStorage).forEach(key =\u0026gt; {\rconsole.log(\u0026#39;key\u0026#39;, key);\rtokenStorage.set(key, localStorage[key])\r})\r} Cho phép nguồn trên web2 để chấp nhận truy cập từ web1 trong App.tsx:  const App: React.FunctionComponent = () =\u0026gt; {\ruseEffect(() =\u0026gt; {\rcreateHost([\r{\rorigin: \u0026#34;http://localhost:3000\u0026#34;,\rallowedMethods: [\u0026#34;set\u0026#34;, \u0026#34;remove\u0026#34;],\r},\r]);\r}, []);\r} "
+},
+{
+	"uri": "/vi/4-app-configuration/",
+	"title": "Triển khai và kiểm tra Cognito Cross Sites",
+	"tags": [],
+	"description": "",
+	"content": "Cài Đặt Môi Trường Cognito  Tạo file app/.env.local cho app1 và app2 với nội dung sau:  REACT_APP_USERPOOL_ID=YOUR_USER_POOL_ID\rREACT_APP_CLIENT_ID=YOUR_CLIENT_ID Sử dụng Create React App để thiết lập quy trình phát triển:  Các bước tiếp theo sẽ quen thuộc.   Cài đặt và khởi chạy web1 trên cổng 3000:  cd app\rnpm install --force\rnpm start Lưu ý: Đối với MacBook, điều chỉnh file package.json trong thư mục app như sau:\n\u0026#34;scripts\u0026#34;: {\r\u0026#34;start\u0026#34;: \u0026#34;PORT=3000 \u0026amp;\u0026amp; react-scripts start\u0026#34;,\r...\r}, Cài đặt và khởi chạy web2:  cd app2\rnpm install --force\rnpm start  Sau khi khởi tạo ứng dụng web 1. Bạn truy cập vào web1 qua localhost:3000\n Sau đó, bạn thực hiện đăng nhập, chọn SIGN IN WEB1    Trong giao diện đăng nhập vào web1 , nếu bạn chưa có tài khoản thì chọn Register a new account. Nếu đã có tài khoản thì điền đầy đủ thông tin và chọn SIGN IN  Đăng nhập thành công, giao diện giống như hình.   Sau đó truy cập vào web2 qua địa chỉ localhost:3001\n Bạn sẽ bất ngờ vì không cần đăng nhập vào thấy giao diện web2.     Quay lại giao diện web1 và thực hiện đăng xuất bằng cách chọn SIGN OUT WEB1  Bạn thực hiện tải lại trang web2 thì không xem được giao diện web2 nữa.  "
+},
+{
+	"uri": "/vi/5-cleanup/",
+	"title": "Dọn dẹp tài nguyên",
+	"tags": [],
+	"description": "",
+	"content": "Dọn dẹp tài nguyên Để xóa các tài nguyên được triển khai thông qua AWS Cloud Development Kit (CDK), bạn cần sử dụng lệnh cdk destroy trong dự án CDK của mình. Dưới đây là các bước cơ bản để thực hiện điều này:\n Mở Terminal hoặc Command Prompt: Mở một cửa sổ terminal hoặc command prompt trên máy của bạn. Di chuyển đến thư mục dự án CDK: Sử dụng lệnh cd để di chuyển đến thư mục chứa dự án CDK của bạn.  cd path/to/your/cdk/project Chạy lệnh cdk destroy: Khi bạn đã trong thư mục dự án, sử dụng lệnh cdk destroy để xóa các tài nguyên. Lệnh này sẽ liệt kê tất cả các tài nguyên sẽ bị xóa và yêu cầu xác nhận từ bạn trước khi tiếp tục.  cdk destroy  Xác nhận việc xóa tài nguyên: Khi được yêu cầu, bạn cần xác nhận rằng bạn muốn xóa các tài nguyên. Điều này thường đòi hỏi việc nhập \u0026ldquo;y\u0026rdquo; hoặc \u0026ldquo;yes\u0026rdquo;.\n  Đợi quá trình hoàn tất: AWS CDK sẽ tiến hành xóa các tài nguyên. Quá trình này có thể mất vài phút tùy thuộc vào số lượng và loại tài nguyên đang được xóa.\n  Lưu ý rằng việc sử dụng cdk destroy sẽ xóa tất cả các tài nguyên được quản lý bởi stack CDK mà bạn đang làm việc. Đảm bảo rằng bạn không còn cần đến các tài nguyên này trước khi tiến hành xóa.\n"
+},
+{
+	"uri": "/vi/6-useful-references/",
+	"title": "Tài liệu tham khảo",
+	"tags": [],
+	"description": "",
+	"content": "Một số giải pháp khác   Firebase Auth: Tuyệt vời cho di động và web. Tương đối hạn chế nhưng dễ sử dụng. Tích hợp rất tốt với các dịch vụ khác của Firebase.\n  Auth0: Đi kèm với giao diện người dùng phong phú và đầy đủ tính năng. Có vẻ như chi phí nhanh chóng trở nên đắt đỏ nhưng là một lựa chọn an toàn.\n  Keycloak: Dịch vụ doanh nghiệp phong phú tính năng, cung cấp giao diện người dùng có thể tùy chỉnh đầy đủ. Không có giải pháp đám mây nhưng dễ dàng triển khai lên AWS sử dụng script CDK này.\n  Tài Liệu Tham Khảo Hữu Ích   amazon-cognito-identity-js trên npmjs\n  Tài liệu AWS Cognito CDK\n  Hướng dẫn Cognito User Pools với IDP \n  Hướng dẫn bắt đầu với AWS CDK\n  "
+},
+{
+	"uri": "/vi/categories/",
+	"title": "Categories",
+	"tags": [],
+	"description": "",
+	"content": ""
+},
+{
+	"uri": "/vi/tags/",
+	"title": "Tags",
+	"tags": [],
+	"description": "",
+	"content": ""
+}]
