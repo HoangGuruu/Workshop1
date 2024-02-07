@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tạo Services on AWS Workshop</title>
+    <link>/4-ecs/4.3-createecsservice/4.3.2-createservice/</link>
+    <description>Recent content in Tạo Services on AWS Workshop</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language><atom:link href="/4-ecs/4.3-createecsservice/4.3.2-createservice/index.xml" rel="self" type="application/rss+xml" />
+  </channel>
+</rss>

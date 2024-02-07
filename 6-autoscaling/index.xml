@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Auto Scaling on AWS Workshop</title>
+    <link>/6-autoscaling/</link>
+    <description>Recent content in Auto Scaling on AWS Workshop</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language><atom:link href="/6-autoscaling/index.xml" rel="self" type="application/rss+xml" />
+  </channel>
+</rss>

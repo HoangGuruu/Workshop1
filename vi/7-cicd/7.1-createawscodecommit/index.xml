@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tạo AWS CodeCommit on AWS Workshop</title>
+    <link>/vi/7-cicd/7.1-createawscodecommit/</link>
+    <description>Recent content in Tạo AWS CodeCommit on AWS Workshop</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>vi</language><atom:link href="/vi/7-cicd/7.1-createawscodecommit/index.xml" rel="self" type="application/rss+xml" />
+  </channel>
+</rss>
