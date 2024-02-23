@@ -812,7 +812,7 @@
             
           
           
-            <a href='../'>EKS Application</a> > Giới thiệu
+            <a href='../'>EKS Application</a> > Các bước chuẩn bị 
           
         
           
@@ -827,7 +827,7 @@
   <ul>
     <li>
       <ul>
-        <li><a href="#giới-thiệu">Giới thiệu</a></li>
+        <li><a href="#giới-thiệu">Giới thiệuss</a></li>
       </ul>
     </li>
   </ul>
@@ -847,7 +847,7 @@
           
             <h1>
               
-              Giới thiệu
+              Các bước chuẩn bị 
             </h1>
           
 
@@ -855,11 +855,27 @@
 
 
 
-	<h3 id="giới-thiệu">Giới thiệu</h3>
-<p>Ứng dụng web này bao gồm ba dịch vụ: <strong>Web</strong> (trang chính), <strong>Cats</strong> (trang về mèo) và <strong>Dogs</strong> (trang về chó). Trong bài workshop này, <strong>Web</strong> và <strong>Cats</strong> sẽ sử dụng loại khởi chạy <em>Amazon EC2</em> và <strong>Dogs</strong> sẽ sử dụng loại khởi chạy <em>AWS Fargate</em> trên một cluster.</p>
-<p><img src="../images/1.%20Introduce/001-introduce.png?width=90pc" alt="ConnectPrivate"></p>
+	<h3 id="giới-thiệu">Chuẩn bị tài nguyên:</h3>
 
 
+<p>Tài khoản AWS và Access Key của IAM user có quyền truy cập để tạo và quản lý các tài nguyên AWS cần thiết.
+  Sử dụng Cloud9 IDE như một bastion host để quản lý các tài nguyên AWS.
+  Một Keypair dùng cho việc tạo Instance trong nodegroup của eks cluster.
+  Một domain riêng để cung cấp cho ứng dụng NextJS. Và cài đặt name server cho domain với Route53.
+  </p>
+<p><img src="../image/1.introduce/1-diagram.png?width=90pc" alt="ConnectPrivate"></p>
+
+
+
+
+<h3 id="nôi-dung">Nội dung</h3>
+<ol>
+<li><a href="2.1-accesskey/">Khởi tạo VPC</a></li>
+<li><a href="2.2-bastionhost-cloud9/">Tạo Cloud9 instance</a></li>
+<li><a href="2.3-keypair/">Tạo Cloud9 instance</a></li>
+<li><a href="2.4-domain/">Tạo Cloud9 instance</a></li>
+
+</ol>
 
 
 

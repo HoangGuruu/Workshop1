@@ -856,8 +856,9 @@
 
 
 	<h3 id="giới-thiệu">Giới thiệu</h3>
-<p>Ứng dụng web này bao gồm ba dịch vụ: <strong>Web</strong> (trang chính), <strong>Cats</strong> (trang về mèo) và <strong>Dogs</strong> (trang về chó). Trong bài workshop này, <strong>Web</strong> và <strong>Cats</strong> sẽ sử dụng loại khởi chạy <em>Amazon EC2</em> và <strong>Dogs</strong> sẽ sử dụng loại khởi chạy <em>AWS Fargate</em> trên một cluster.</p>
-<p><img src="../images/1.%20Introduce/001-introduce.png?width=90pc" alt="ConnectPrivate"></p>
+<p>Trong workshop này, chúng ta sẽ khám phá cách xây dựng một môi trường đám mây phức tạp thông qua việc triển khai và quản lý một EKS cluster trên AWS. Sử dụng AWS CLI và Cloud9 IDE như một bastion host, chúng ta sẽ khám phá cách tạo và quản lý các tài nguyên trong một môi trường điện toán đám mây linh hoạt và mạnh mẽ.</p>
+<p>Trong quá trình này, chúng ta sẽ tạo ra các máy chủ cho các công cụ quan trọng như <strong>Jenkins, ArgoCD, và Grafana-Prometheus</strong>. Bằng cách làm này, chúng ta sẽ thiết lập một đường ống hoàn chỉnh cho việc triển khai ứng dụng <strong>NextJS</strong> một cách tự động và liên tục. Ứng dụng <strong>NextJS</strong> này là ứng dụng về tìm kiếm thông tin của những hãng ô tô. Ứng dụng sẽ được phân phối thông qua quá trình CI/CD và triển khai trên cụm <strong>EKS Cluster</strong>. Triển khai thêm <strong>Domain</strong> thông qua ingress để tăng cường bảo mật và tiếp cận được user thân thiện hơn. Đồng thời, chúng ta sẽ tiến hành giám sát hoạt động của các tài nguyên trong cluster, từ quy trình triển khai cho đến hiệu suất của ứng dụng.</p>
+<p><img src="../image/1.introduce/1-diagram.png?width=90pc" alt="ConnectPrivate"></p>
 
 
 
