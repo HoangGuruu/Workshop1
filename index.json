@@ -1,7 +1,7 @@
 [
 {
 	"uri": "/",
-	"title": "ECS Application",
+	"title": "EKS Application",
 	"tags": [],
 	"description": "",
 	"content": "Triển khai ứng dụng web với ECS Tổng quan Trong bài workshop này, chúng ta sẽ tạo và triển khai một ứng dụng web bằng ECS, ứng dụng sẽ hiển thị ngẫu nhiên hình ảnh con mèo hoặc con chó. Ngoài ra, chúng ta cũng sẽ triển khai các công cụ giám sát container, thực hiện theo dõi và phân tích dữ liệu trên ứng dụng web.\nNội dung Giới thiệu Các bước chuẩn bị Build và push image lên ECR Triển khai ứng dụng web với ECS Giám sát Auto Scaling CI/CD Dọn dẹp tài nguyên "
