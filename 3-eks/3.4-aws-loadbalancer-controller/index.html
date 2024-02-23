@@ -854,7 +854,7 @@ active
           
             <h1>
               
-              Khởi tạo VPC
+              Cài đặt aws loadbalancer controller
             </h1>
           
 
@@ -862,83 +862,185 @@ active
 
 
 
-	<h4 id="khởi-tạo-vpc">Khởi tạo VPC</h4>
-<p>Để khởi tạo VPC thông qua <strong>CloudFormation</strong> trước hết bạn cần phải tải <a href="https://codeload.github.com/ntbinh16/cloudformation-template/zip/refs/heads/main">CloudFormation Template</a> và tiến hành giải nén.</p>
+	<h4 id="khởi-tạo-vpc">Cài đặt aws loadbalancer controller</h4>
+
+
 <ol>
-<li>Đăng nhập vào <strong>AWS Management Console</strong>.</li>
+<li>Cấu hình kubeconfig cho kubectl</li>
 </ol>
-<ul>
-<li>Tìm <strong>CloudFormation</strong></li>
-<li>Chọn <strong>CloudFormation</strong></li>
-</ul>
-<p><img src="../../images/2.%20Prerequisite/2.1-createvpc/001-createvpc.png?width=90pc" alt="Vào CloudFormation"></p>
+
+<pre><code>
+aws eks --region us-east-1 update-kubeconfig --name eksdemo1
+export AWS_ACCESS_KEY_ID= { Access key ID  }
+export AWS_SECRET_ACCESS_KEY= { Secret access key }  
+</code></pre>
+
+
+
 <ol start="2">
-<li>Trong giao diện CloudFormation.</li>
+<li>Xác nhận cluster với kubectl</li>
 </ol>
-<ul>
-<li>Chọn Create stack</li>
-</ul>
-<p><img src="../../images/2.%20Prerequisite/2.1-createvpc/002-createvpc.png?width=90pc" alt="Create stack"></p>
+
+
+<ul><li><code>kubectl get nodes</code></li></ul>
+
 <ol start="3">
-<li>Trong trang <strong>Create stack</strong> chọn các thông số sau và chọn <strong>Next</strong>:</li>
+<li>Alias kubectl thành k</li>
 </ol>
-<ul>
-<li><strong>Prerequisite - Prepare template:</strong>
-<ul>
-<li><strong>Prerequisite template:</strong> Template is ready</li>
-</ul>
-</li>
-<li><strong>Specify template:</strong>
-<ul>
-<li><strong>Template source:</strong> Upload a template file</li>
-<li>Chọn <strong>Choose file</strong> rồi chọn tập tin <strong>VPCTempalte.yaml</strong> vừa được tải về trước đó.</li>
-</ul>
-</li>
-<li>Chọn <strong>Next</strong></li>
-</ul>
-<p><img src="../../images/2.%20Prerequisite/2.1-createvpc/003-createvpc.png?width=90pc" alt="Upload a template file"></p>
+
+
+<ul><li><code>alias k=kubectl</code></li></ul>
+
+
 <ol start="4">
-<li>Trong trang <strong>Specify stack details</strong>, bạn sẽ nhập các thông số được yêu cầu trong <strong>VPCTempalte.yaml</strong> như sau:</li>
+<li>Tạo IAM policy cho AWS Load Balancer</li>
 </ol>
-<ul>
-<li><strong>Stack name:</strong>
-<ul>
-<li><strong>Stack name:</strong> <code>ECS-VPC-Stack</code></li>
-</ul>
-</li>
-<li><strong>Parameters:</strong>
-<ul>
-<li><strong>EnvironmentName:</strong> <code>ECS VPC</code></li>
-</ul>
-</li>
-<li>Các cái khác để mặc định và chọn <strong>Next</strong></li>
-</ul>
-<p><img src="../../images/2.%20Prerequisite/2.1-createvpc/004-createvpc.png?width=90pc" alt="Specify stack details"></p>
+
+
+<ul><li>Tải policy json trong terminal</li></ul>
+<pre><code>curl -o iam_policy_latest.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/install/iam_policy.json</code></pre>
+<ul><li>Tạo IAM policy bằng aws cli</li></ul>
+<pre><code>
+aws iam create-policy \
+    --policy-name AWSLoadBalancerControllerIAMPolicy \
+    --policy-document file://iam_policy_latest.json
+</code></pre>
+
 <ol start="5">
-<li>Tại trang <strong>Configure stack options,</strong> chọn <strong>Next</strong>.</li>
+<li>Kiểm tra Policy vừa tạo</li>
 </ol>
-<p><img src="../../images/2.%20Prerequisite/2.1-createvpc/005-createvpc.png?width=90pc" alt="Configure stack options"></p>
+
+<ul>
+<li>Tại aws console tìm kiếm IAM</li>
+<li>Chọn Policy và thấy AWSLoadBalancerIAMPolicy</li>
+</ul>
+
+<p><img src="../../image/3.eks/3.4.aws-loadbalancer-controller/2.png?width=90pc" alt="Create stack"></p>
+
+
+
 <ol start="6">
-<li>Tại trang <strong>Review,</strong> kiểm tra và chọn <strong>Submit</strong> ở cuối trang.</li>
+<li>Kiểm tra các quyền bên trong Policy</li>
 </ol>
-<p><img src="../../images/2.%20Prerequisite/2.1-createvpc/006-createvpc.png?width=90pc" alt="Review"></p>
+
+
+<p><img src="../../image/3.eks/3.4.aws-loadbalancer-controller/3.png?width=90pc" alt="Create stack"></p>
+
+  
 <ol start="7">
-<li>Đợi 10 phút sau, <strong>Stack</strong> tạo thành công.</li>
+<li>Tạo iam service account bằng eksctl</li>
 </ol>
-<p><img src="../../images/2.%20Prerequisite/2.1-createvpc/007-createvpc.png?width=90pc" alt="Stack create complete"></p>
+
+<ul>
+  <li>Sử dụng ARN của AWSLoadBalancerControllerIAMPolicy</li>
+</ul>
+
+<pre>
+  <code>
+eksctl create iamserviceaccount \
+  --cluster=eksdemo1 \
+  --namespace=kube-system \
+  --name=aws-load-balancer-controller \
+  --attach-policy-arn=arn:aws:iam::736059458620:policy/AWSLoadBalancerControllerIAMPolicy \
+  --override-existing-serviceaccounts \
+  --approve
+
+  </code>
+</pre>
+
+
+
+
+
 <ol start="8">
-<li>Truy cập vào <strong>AWS Management Console.</strong> Tìm <strong>VPC</strong> ở thanh điều hướng và chọn <strong>VPC.</strong></li>
+<li>Kiểm tra IAM service account</li>
 </ol>
-<p><img src="../../images/2.%20Prerequisite/2.1-createvpc/008-createvpc.png?width=90pc" alt="Truy cập VPC"></p>
+
+<ul>Chạy lệnh trong terminal : <code>eksctl  get iamserviceaccount --cluster eksdemo1</code></ul>
+
 <ol start="9">
-<li>Vào <strong>Your VPCs</strong> và bạn sẽ thấy thông tin VPC bạn vừa mới tạo.</li>
+<li>Tải aws load balancer controller bằng helm</li>
 </ol>
-<p><img src="../../images/2.%20Prerequisite/2.1-createvpc/009-createvpc.png?width=90pc" alt="Thông tin VPC"></p>
 
+<pre>
+  <code>
+# Add the eks-charts repository.
+helm repo add eks https://aws.github.io/eks-charts
 
+# Update your local repo to make sure that you have the most recent charts.
+helm repo update
 
+## Replace Cluster Name, Region Code, VPC ID, Image Repo Account ID and Region Code  
+helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
+  -n kube-system \
+  --set clusterName=eksdemo1 \
+  --set serviceAccount.create=false \
+  --set serviceAccount.name=aws-load-balancer-controller \
+  --set region=us-east-1 \
+  --set vpcId=vpc-06fef6ee4d3ae40af \
+  --set image.repository=602401143452.dkr.ecr.us-east-1.amazonaws.com/amazon/aws-load-balancer-controller
 
+  </code>
+</pre>
 
+<ol start="10">
+<li>Kiểm tra các pod aws loadbalancer đã tạo bằng cli</li>
+</ol>
+
+<code>k get pod –n kube-system</code>
+
+<p><img src="../../image/3.eks/3.4.aws-loadbalancer-controller/37.png?width=90pc" alt="Create stack"></p>
+
+<ol start="11">
+<li>Tạo IngressClass Kubernetes Manifest</li>
+</ol>
+
+<ul>
+  <li>
+    Tại terminal: <code>touch ingressclass.yaml</code>
+  </li>
+</ul>
+
+<ul>
+  <li>
+    Nội dung của ingressclass.yaml
+  </li>
+</ul>
+
+<pre>
+  <code>
+apiVersion: networking.k8s.io/v1
+kind: IngressClass
+metadata:
+  name: my-aws-ingress-class
+  annotations:
+    ingressclass.kubernetes.io/is-default-class: "true"
+spec:
+  controller: ingress.k8s.aws/alb
+
+  </code>
+</pre>
+
+<ol start="12">
+<li>Apply manifest của ingress class sử dụng aws alb</li>
+</ol>
+
+<pre>
+  <code>
+kubectl apply -f ingressclass.yaml    
+  </code>
+</pre>
+
+<ol start="13">
+<li>Kiểm tra ingressclasss</li>
+</ol>
+
+<pre>
+  <code>
+# Describe IngressClass Resource
+kubectl describe ingressclass my-aws-ingress-class
+  </code>
+</pre>
 <footer class=" footline" >
 	
 </footer>

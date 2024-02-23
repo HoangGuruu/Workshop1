@@ -12,6 +12,6 @@ def list_all_objects(startpath):
                 print(path)  # Liên kết tượng trưng
 
 # Thay đổi 'path_to_folder' thành đường dẫn tới thư mục bạn muốn liệt kê
-#path_to_folder = 'c:/WorkSpace/GitHub/Working/aws-study-group/github-page/hoangguruu.github.io/image/2.prerequiste/2.1.accesskey/'
-path_to_folder = 'c:/WorkSpace/GitHub/Working/aws-study-group/github-page/hoangguruu.github.io/image/1.introduce/'
+path_to_folder = 'c:/WorkSpace/GitHub/Working/aws-study-group/github-page/hoangguruu.github.io/image/3.eks/3.6.external-dns/'
+#path_to_folder = 'c:/WorkSpace/GitHub/Working/aws-study-group/github-page/hoangguruu.github.io/image/1.introduce/'
 list_all_objects(path_to_folder)

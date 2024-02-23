@@ -854,7 +854,7 @@ active
           
             <h1>
               
-              Khởi tạo VPC
+              Domain riêng với Route53
             </h1>
           
 
@@ -862,78 +862,67 @@ active
 
 
 
-	<h4 id="khởi-tạo-vpc">Khởi tạo VPC</h4>
-<p>Để khởi tạo VPC thông qua <strong>CloudFormation</strong> trước hết bạn cần phải tải <a href="https://codeload.github.com/ntbinh16/cloudformation-template/zip/refs/heads/main">CloudFormation Template</a> và tiến hành giải nén.</p>
-<ol>
-<li>Đăng nhập vào <strong>AWS Management Console</strong>.</li>
+	<h4 id="khởi-tạo-vpc">Domain riêng với Route53</h4>
+<ol start="1">
+<li>Trong AWS Console tìm kiếm Route53</li>
 </ol>
+
 <ul>
-<li>Tìm <strong>CloudFormation</strong></li>
-<li>Chọn <strong>CloudFormation</strong></li>
+<li>Tiếp đến chọn Create hosted zone</li>
 </ul>
-<p><img src="../../images/2.%20Prerequisite/2.1-createvpc/001-createvpc.png?width=90pc" alt="Vào CloudFormation"></p>
+
+<p><img src="../../image/2.prerequiste/2.4.domain/18.png?width=90pc" alt="Create stack"></p>
+
+
 <ol start="2">
-<li>Trong giao diện CloudFormation.</li>
+<li>Trong phần này</li>
 </ol>
+
 <ul>
-<li>Chọn Create stack</li>
+<li>Nhập domain : hoangguruu.id.vn</li>
+<li>Type : Public hosted zone</li>
 </ul>
-<p><img src="../../images/2.%20Prerequisite/2.1-createvpc/002-createvpc.png?width=90pc" alt="Create stack"></p>
+
+<p><img src="../../image/2.prerequiste/2.4.domain/19.png?width=90pc" alt="Create stack"></p>
+
+
 <ol start="3">
-<li>Trong trang <strong>Create stack</strong> chọn các thông số sau và chọn <strong>Next</strong>:</li>
+<li>Còn lại để mặc định và Create</li>
 </ol>
-<ul>
-<li><strong>Prerequisite - Prepare template:</strong>
-<ul>
-<li><strong>Prerequisite template:</strong> Template is ready</li>
-</ul>
-</li>
-<li><strong>Specify template:</strong>
-<ul>
-<li><strong>Template source:</strong> Upload a template file</li>
-<li>Chọn <strong>Choose file</strong> rồi chọn tập tin <strong>VPCTempalte.yaml</strong> vừa được tải về trước đó.</li>
-</ul>
-</li>
-<li>Chọn <strong>Next</strong></li>
-</ul>
-<p><img src="../../images/2.%20Prerequisite/2.1-createvpc/003-createvpc.png?width=90pc" alt="Upload a template file"></p>
+
+
+<p><img src="../../image/2.prerequiste/2.4.domain/20.png?width=90pc" alt="Create stack"></p>
+
+
 <ol start="4">
-<li>Trong trang <strong>Specify stack details</strong>, bạn sẽ nhập các thông số được yêu cầu trong <strong>VPCTempalte.yaml</strong> như sau:</li>
+<li>Trong phần hosted zone</li>
 </ol>
+
 <ul>
-<li><strong>Stack name:</strong>
-<ul>
-<li><strong>Stack name:</strong> <code>ECS-VPC-Stack</code></li>
+<li>Chọn name server và copy</li>
 </ul>
-</li>
-<li><strong>Parameters:</strong>
-<ul>
-<li><strong>EnvironmentName:</strong> <code>ECS VPC</code></li>
-</ul>
-</li>
-<li>Các cái khác để mặc định và chọn <strong>Next</strong></li>
-</ul>
-<p><img src="../../images/2.%20Prerequisite/2.1-createvpc/004-createvpc.png?width=90pc" alt="Specify stack details"></p>
+
+<p><img src="../../image/2.prerequiste/2.4.domain/21.png?width=90pc" alt="Create stack"></p>
+
+
+
 <ol start="5">
-<li>Tại trang <strong>Configure stack options,</strong> chọn <strong>Next</strong>.</li>
+<li>Truy cập nơi domain được mua và quản lí</li>
 </ol>
-<p><img src="../../images/2.%20Prerequisite/2.1-createvpc/005-createvpc.png?width=90pc" alt="Configure stack options"></p>
+
+<ul>
+<li>Cấu hình cho domain bằng các NS</li>
+</ul>
+
+<p><img src="../../image/2.prerequiste/2.4.domain/22.png?width=90pc" alt="Create stack"></p>
+
+
 <ol start="6">
-<li>Tại trang <strong>Review,</strong> kiểm tra và chọn <strong>Submit</strong> ở cuối trang.</li>
+<li>Cập nhật NS</li>
 </ol>
-<p><img src="../../images/2.%20Prerequisite/2.1-createvpc/006-createvpc.png?width=90pc" alt="Review"></p>
-<ol start="7">
-<li>Đợi 10 phút sau, <strong>Stack</strong> tạo thành công.</li>
-</ol>
-<p><img src="../../images/2.%20Prerequisite/2.1-createvpc/007-createvpc.png?width=90pc" alt="Stack create complete"></p>
-<ol start="8">
-<li>Truy cập vào <strong>AWS Management Console.</strong> Tìm <strong>VPC</strong> ở thanh điều hướng và chọn <strong>VPC.</strong></li>
-</ol>
-<p><img src="../../images/2.%20Prerequisite/2.1-createvpc/008-createvpc.png?width=90pc" alt="Truy cập VPC"></p>
-<ol start="9">
-<li>Vào <strong>Your VPCs</strong> và bạn sẽ thấy thông tin VPC bạn vừa mới tạo.</li>
-</ol>
-<p><img src="../../images/2.%20Prerequisite/2.1-createvpc/009-createvpc.png?width=90pc" alt="Thông tin VPC"></p>
+
+
+<p><img src="../../image/2.prerequiste/2.4.domain/23.png?width=90pc" alt="Create stack"></p>
 
 
 
