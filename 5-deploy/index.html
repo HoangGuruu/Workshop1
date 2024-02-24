@@ -847,7 +847,7 @@
           
             <h1>
               
-              Giới thiệu
+              Triển khai ứng dụng tự động
             </h1>
           
 
@@ -855,11 +855,22 @@
 
 
 
-	<h3 id="giới-thiệu">Giới thiệu</h3>
-<p>Ứng dụng web này bao gồm ba dịch vụ: <strong>Web</strong> (trang chính), <strong>Cats</strong> (trang về mèo) và <strong>Dogs</strong> (trang về chó). Trong bài workshop này, <strong>Web</strong> và <strong>Cats</strong> sẽ sử dụng loại khởi chạy <em>Amazon EC2</em> và <strong>Dogs</strong> sẽ sử dụng loại khởi chạy <em>AWS Fargate</em> trên một cluster.</p>
-<p><img src="../images/1.%20Introduce/001-introduce.png?width=90pc" alt="ConnectPrivate"></p>
+	<h3 id="giới-thiệu">Triển khai ứng dụng tự động</h3>
 
 
+<p><img src="../image/5.deploy/1-diagram.png?width=90pc" alt="ConnectPrivate"></p>
+
+
+<h3 id="nôi-dung">Nội dung</h3>
+<ol>
+<li><a href="5.1-dockerfile/">Dockerfile cho ứng dụng Show Car</a></li>
+<li><a href="5.2-buildimage-gitops/">Build Image and GitOps với Jenkins và GitHub</a></li>
+<li><a href="5.3-argocd/">Triển khai tự động lên cluster với ArgoCD</a></li>
+<li><a href="5.4-webhook/">Cấu hình Webhook tại Github repository</a></li>
+<li><a href="5.5-repository-private/">Tạo repository private trên docker hub và secret cho Pull Image của cluster</a></li>
+
+
+</ol>  
 
 
 
@@ -1302,10 +1313,10 @@
 	 
 	 
 		
-			<a class="nav nav-prev" href="../" title="EKS Application"> <i class="fa fa-chevron-left"></i></a>
+			<a class="nav nav-prev" href="../4-cicd/4.3-grafana-prometheus/" title="EKS Application"> <i class="fa fa-chevron-left"></i></a>
 		
 		
-			<a class="nav nav-next" href="../2-prerequiste/" title="Các bước chuẩn bị" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+			<a class="nav nav-next" href="../5-deploy/5.1-dockerfile/" title="Các bước chuẩn bị" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>
