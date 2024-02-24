@@ -854,7 +854,7 @@ active
           
             <h1>
               
-              Khởi tạo VPC
+              Cấu hình Webhook tại Github repository
             </h1>
           
 
@@ -862,60 +862,49 @@ active
 
 
 
-	<h4 id="khởi-tạo-vpc">Khởi tạo VPC</h4>
-<p>Đảm bảo đã có IAM user có quyền Admin hoặc user có đầy đủ các quyền cần thiết. </p>
+	<h4 id="khởi-tạo-vpc">Cấu hình Webhook tại Github repository</h4>
 
 
 <ol>
-<li>Truy cập AWS console .</li>
+<li>Tại Github repository Jenkins</li>
 </ol>
 
 <ul>
-<li>Chọn Security credentials ở góc phải</li>
+<li>Chọn Settings</li>
 </ul>
 
-<p><img src="../../image/2.prerequiste/2.1.accesskey/0.png?width=90pc" alt="Vào CloudFormation"></p>
+<p><img src="../../image/5.deploy/5.4.webhook/85.png?width=90pc" alt="Vào CloudFormation"></p>
 
 <ol start="2">
-<li>Kéo xuống và chọn Create access key</li>
+<li>Chọn webhook > Add webhook</li>
 </ol>
 
 
 
-<p><img src="../../image/2.prerequiste/2.1.accesskey/2.png?width=90pc" alt="Create stack"></p>
+<p><img src="../../image/5.deploy/5.4.webhook/86.png?width=90pc" alt="Create stack"></p>
 
 
 <ol start="3">
-<li>Trong giao diện Access key</li>
+<li>Tại phần add webhook</li>
 </ol>
 
 <ul>
-<li>Chọn CLI</li>
+<li>Payload URL : http://44.197.241.235:8080/github-webhook/</li>
+<li>Content type : application/json</li>
+<li>Chọn Add webhook</li>
 </ul>
 
-<p><img src="../../image/2.prerequiste/2.1.accesskey/3.png?width=90pc" alt="Create stack"></p>
+<p><img src="../../image/5.deploy/5.4.webhook/87.png?width=90pc" alt="Create stack"></p>
+<p><img src="../../image/5.deploy/5.4.webhook/88.png?width=90pc" alt="Create stack"></p>
 
 
 
   <ol start="4">
-<li>Còn lại để mặc định, chọn Create access key</li>
+<li>Kiểm tra webhook active</li>
 </ol>
 
 
-
-<p><img src="../../image/2.prerequiste/2.1.accesskey/4.png?width=90pc" alt="Create stack"></p>
-
-
-
-<ol start="5">
-<li>Lưu trữ Access key để dụng cấu hình</li>
-</ol>
-
-
-
-<p><img src="../../image/2.prerequiste/2.1.accesskey/5.png?width=90pc" alt="Create stack"></p>
-
-
+<p><img src="../../image/5.deploy/5.4.webhook/89.png?width=90pc" alt="Create stack"></p>
 
 
 

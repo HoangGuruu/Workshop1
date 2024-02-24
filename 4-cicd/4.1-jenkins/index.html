@@ -854,7 +854,7 @@ active
           
             <h1>
               
-              Khởi tạo VPC
+              Cài đặt Jenkins trên Bastion host
             </h1>
           
 
@@ -862,61 +862,301 @@ active
 
 
 
-	<h4 id="khởi-tạo-vpc">Khởi tạo VPC</h4>
-<p>Đảm bảo đã có IAM user có quyền Admin hoặc user có đầy đủ các quyền cần thiết. </p>
+	<h4 id="khởi-tạo-vpc">Cài đặt Jenkins trên Bastion host</h4>
 
 
 <ol>
-<li>Truy cập AWS console .</li>
+<li>Tại service tìm EC2</li>
 </ol>
 
 <ul>
-<li>Chọn Security credentials ở góc phải</li>
+<li>Chọn cloud9 instance</li>
 </ul>
 
-<p><img src="../../image/2.prerequiste/2.1.accesskey/0.png?width=90pc" alt="Vào CloudFormation"></p>
+<p><img src="../../image/4.cicd/4.1.jenkins/43.png?width=90pc" alt="Vào CloudFormation"></p>
 
 <ol start="2">
-<li>Kéo xuống và chọn Create access key</li>
+<li>Kiểm tra security group</li>
 </ol>
 
 
 
-<p><img src="../../image/2.prerequiste/2.1.accesskey/2.png?width=90pc" alt="Create stack"></p>
+<p><img src="../../image/4.cicd/4.1.jenkins/44.png?width=90pc" alt="Create stack"></p>
 
 
 <ol start="3">
-<li>Trong giao diện Access key</li>
+<li>Chọn Edit inbound rules</li>
 </ol>
 
 <ul>
 <li>Chọn CLI</li>
 </ul>
 
-<p><img src="../../image/2.prerequiste/2.1.accesskey/3.png?width=90pc" alt="Create stack"></p>
+<p><img src="../../image/4.cicd/4.1.jenkins/45.png?width=90pc" alt="Create stack"></p>
 
 
 
   <ol start="4">
-<li>Còn lại để mặc định, chọn Create access key</li>
+<li>Chọn Add rule</li>
 </ol>
 
+<ul>
+  <li>Port range : 8080 </li>
+  <li>Source : 0.0.0.0/0</li>
+  <li>Chọn : Save</li>
+</ul>
 
-
-<p><img src="../../image/2.prerequiste/2.1.accesskey/4.png?width=90pc" alt="Create stack"></p>
+<p><img src="../../image/4.cicd/4.1.jenkins/46.png?width=90pc" alt="Create stack"></p>
 
 
 
 <ol start="5">
-<li>Lưu trữ Access key để dụng cấu hình</li>
+<li>Tại terminal clou9 instance</li>
+</ol>
+
+<pre>
+  <code>
+sudo apt update
+sudo apt install fontconfig openjdk-17-jre
+java –version
+
+sudo wget -O /usr/share/keyrings/jenkins-keyring.asc \
+  https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
+  https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
+  /etc/apt/sources.list.d/jenkins.list > /dev/null
+sudo apt-get update
+sudo apt-get install Jenkins –y
+
+sudo systemctl enable Jenkins
+sudo systemctl start Jenkins
+sudo systemctl status Jenkins
+
+  </code>
+</pre>
+
+
+<ol start="6">
+<li>Access Jenkins tại browser</li>
+</ol>
+
+<ul>
+  <li>44.197.241.235:8080 ( public ip của cloud9 instance )</li>
+</ul>
+
+<p><img src="../../image/4.cicd/4.1.jenkins/47.png?width=90pc" alt="Create stack"></p>
+
+
+<ol start="7">
+<li>Tại terminal</li>
 </ol>
 
 
+<code>
+  <pre>
+sudo cat /var/lib/Jenkins/secrets/initialAdminPassword    
+  </pre>
+</code>
 
-<p><img src="../../image/2.prerequiste/2.1.accesskey/5.png?width=90pc" alt="Create stack"></p>
+<ul><li>Copy password và dán vào Administrator password</li></ul>
+
+
+<ol start="8">
+<li>Choose Insall suggested plugins để tải các gói cần thiết</li>
+</ol>
+
+<p><img src="../../image/4.cicd/4.1.jenkins/48.png?width=90pc" alt="Create stack"></p>
+
+
+<ol start="9">
+<li>Tại phần create first admin user</li>
+</ol>
+
+<ul>
+  <li>Username : hoangguruu</li>
+  <li>Password: hoangguruu</li>
+  <li>Confirm password : hoangguruu</li>
+  <li>Fullname : hoangguruu</li>
+  <li>Email : hoangguruu@gmail.com</li>
+</ul>
+
+<p><img src="../../image/4.cicd/4.1.jenkins/49.png?width=90pc" alt="Create stack"></p>
 
 
 
+<ol start="10">
+<li>Chọn save và tiếp tục</li>
+</ol>
+
+<p><img src="../../image/4.cicd/4.1.jenkins/50.png?width=90pc" alt="Create stack"></p>
+
+<ol start="11">
+<li>Chọn start using Jenkins</li>
+</ol>
+
+<p><img src="../../image/4.cicd/4.1.jenkins/51.png?width=90pc" alt="Create stack"></p>
+
+
+<ol start="12">
+<li>Chọn manage Jenkins</li>
+</ol>
+
+<p><img src="../../image/4.cicd/4.1.jenkins/52.png?width=90pc" alt="Create stack"></p>
+
+
+
+<ol start="13">
+<li>Chọn Plugin</li>
+</ol>
+
+<p><img src="../../image/4.cicd/4.1.jenkins/53.png?width=90pc" alt="Create stack"></p>
+
+
+<ol start="14">
+<li>Tìm kiếm các plugin cần</li>
+</ol>
+
+<ul>
+  <li>Pipeline : Stage View Plugin để thấy được các box status khi build</li>
+  <li>Chọn Install without restart</li>
+</ul>
+
+<p><img src="../../image/4.cicd/4.1.jenkins/54.png?width=90pc" alt="Create stack"></p>
+
+
+<ol start="15">
+<li>Quay trở lại phấn dashboard</li>
+</ol>
+
+<ul>
+  <li>Chọn New item</li>
+</ul>
+
+<p><img src="../../image/4.cicd/4.1.jenkins/55.png?width=90pc" alt="Create stack"></p>
+
+
+
+<ol start="16">
+<li>Tại phần new item</li>
+</ol>
+
+<ul>
+  <li>Name : eks-cicd</li>
+  <li>Type : Pipeline</li>
+  <li>Chọn : Create</li>
+</ul>
+
+<p><img src="../../image/4.cicd/4.1.jenkins/56.png?width=90pc" alt="Create stack"></p>
+
+
+
+<ol start="17">
+<li>Overview của Jenkins configure item</li>
+</ol>
+
+<p><img src="../../image/4.cicd/4.1.jenkins/57.png?width=90pc" alt="Create stack"></p>
+
+
+<ol start="18">
+<li>Tích chọn GitHub hook trigger for GITScm polling</li>
+</ol>
+
+<p><img src="../../image/4.cicd/4.1.jenkins/58.png?width=90pc" alt="Create stack"></p>
+
+
+<ol start="19">
+<li>Tại phần Pipeline</li>
+</ol>
+
+<ul>
+  <li>Chọn Pipeline script from SCM</li>
+  <li>SCM : Git</li>
+  <li>Script Path : Jenkinsfile</li>
+</ul>
+<p><img src="../../image/4.cicd/4.1.jenkins/59.png?width=90pc" alt="Create stack"></p>
+
+
+<ol start="20">
+<li>Tạo Access token cho github</li>
+</ol>
+
+<ul>
+  <li>Vào github chọn setting</li>
+</ul>
+
+<p><img src="../../image/4.cicd/4.1.jenkins/60.png?width=90pc" alt="Create stack"></p>
+
+
+
+<ol start="21">
+<li>Kéo xuống dưới chọn Developer settings</li>
+</ol>
+
+<p><img src="../../image/4.cicd/4.1.jenkins/61.png?width=90pc" alt="Create stack"></p>
+
+
+<ol start="22">
+<li>Chọn Personal access tokens > Token(basic)</li>
+</ol>
+
+<p><img src="../../image/4.cicd/4.1.jenkins/62.png?width=90pc" alt="Create stack"></p>
+
+
+<ol start="23">
+<li>Chọn Generate new token > classic</li>
+</ol>
+
+<p><img src="../../image/4.cicd/4.1.jenkins/63.png?width=90pc" alt="Create stack"></p>
+
+
+
+<ol start="24">
+<li>Tại phần new personal access token</li>
+</ol>
+
+<ul>
+  <li>Name : eks-jenkins</li>
+  <li>Select scopes : repo</li>
+  <li>Chọn create</li>
+  <li>Lưu trữ Access token của github</li>
+
+</ul>
+<p><img src="../../image/4.cicd/4.1.jenkins/64.png?width=90pc" alt="Create stack"></p>
+
+
+
+<ol start="25">
+<li>Tại Jenkins configure > Pipeline</li>
+</ol>
+
+<ul>
+  <li>Chọn add Jenkins credentials</li>
+  <li>Kind : Username with password</li>
+  <li>User name : hoangguruu</li>
+  <li>Password : { access token github }</li>
+  <li>ID : github-cred</li>
+</ul>
+
+<p><img src="../../image/4.cicd/4.1.jenkins/65.png?width=90pc" alt="Create stack"></p>
+
+
+
+<ol start="26">
+<li>Dán link private github repository chứa các file build</li>
+</ol>
+
+<ol start="27">
+<li>Chọn credential vừa mới tạo cho github repository </li>
+</ol>
+
+<p><img src="../../image/4.cicd/4.1.jenkins/66.png?width=90pc" alt="Create stack"></p>
+
+
+<ol start="28">
+<li>Tiếp tục tạo Credential cho docker hub bằng username và mật khẩu đăng nhập</li>
+</ol>
+
+<p><img src="../../image/4.cicd/4.1.jenkins/67.png?width=90pc" alt="Create stack"></p>
 
 
 <footer class=" footline" >

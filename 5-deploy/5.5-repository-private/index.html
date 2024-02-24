@@ -854,7 +854,7 @@ active
           
             <h1>
               
-              Khởi tạo VPC
+              Tạo repository private trên docker hub và secret cho Pull Image của cluster
             </h1>
           
 
@@ -862,60 +862,86 @@ active
 
 
 
-	<h4 id="khởi-tạo-vpc">Khởi tạo VPC</h4>
-<p>Đảm bảo đã có IAM user có quyền Admin hoặc user có đầy đủ các quyền cần thiết. </p>
+	<h4 id="khởi-tạo-vpc">Tạo repository private trên docker hub và secret cho Pull Image của cluster</h4>
 
 
 <ol>
-<li>Truy cập AWS console .</li>
+<li>Tại docker hub </li>
 </ol>
 
 <ul>
-<li>Chọn Security credentials ở góc phải</li>
+<li>Chọn Repository > Create</li>
+<li>Name : myapp-private</li>
+<li>Visibility : Private</li>
+<li>Chọn Create</li>
 </ul>
 
-<p><img src="../../image/2.prerequiste/2.1.accesskey/0.png?width=90pc" alt="Vào CloudFormation"></p>
+<p><img src="../../image/5.deploy/5.5.repository-private/91.png?width=90pc" alt="Vào CloudFormation"></p>
 
 <ol start="2">
-<li>Kéo xuống và chọn Create access key</li>
+<li>Kiểm tra lại repository đã tạo</li>
 </ol>
 
 
 
-<p><img src="../../image/2.prerequiste/2.1.accesskey/2.png?width=90pc" alt="Create stack"></p>
+<p><img src="../../image/5.deploy/5.5.repository-private/92.png?width=90pc" alt="Create stack"></p>
 
 
 <ol start="3">
-<li>Trong giao diện Access key</li>
+<li>Tạo secret  docker cho cluster để sử dụng image private</li>
 </ol>
 
 <ul>
-<li>Chọn CLI</li>
+<li>Trong terminal</li>
 </ul>
+<pre>
+  <code>
+kubectl create secret docker-registry regcred --docker-server https://index.docker.io/v1/ --docker-username=hoangguruu --docker-password=<your-pword> --docker-email=hoangguruu@gmail.com    
+  </code>
+</pre>
 
-<p><img src="../../image/2.prerequiste/2.1.accesskey/3.png?width=90pc" alt="Create stack"></p>
+<p>Note : Thay đổi password </p>
+
 
 
 
   <ol start="4">
-<li>Còn lại để mặc định, chọn Create access key</li>
+<li>Sử dụng secret trong deployment</li>
 </ol>
+<pre>
+  <code>
+    imagePullSecrets:
+    - name: regcred
+  </code>
+</pre>
 
+<pre>
+  <code>
+apiVersion: apps/v1
+kind: Deployment # Kubernetes resource kind we are creating
+metadata:
+  name: myapp
+spec:
+  selector:
+    matchLabels:
+      app: myapp
+  replicas: 2 # Number of replicas that will be created for this deployment
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      imagePullSecrets:
+      - name: regcred
+      containers:
+      - name: myapp
+        image: hoangguruu/myapp-private:10
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3000 # The port that the container is running on in the cluster
 
-
-<p><img src="../../image/2.prerequiste/2.1.accesskey/4.png?width=90pc" alt="Create stack"></p>
-
-
-
-<ol start="5">
-<li>Lưu trữ Access key để dụng cấu hình</li>
-</ol>
-
-
-
-<p><img src="../../image/2.prerequiste/2.1.accesskey/5.png?width=90pc" alt="Create stack"></p>
-
-
+  </code>
+</pre>
 
 
 

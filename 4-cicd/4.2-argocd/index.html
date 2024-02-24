@@ -854,7 +854,7 @@ active
           
             <h1>
               
-              Khởi tạo VPC
+              Cài đặt ArgoCD trên Cluster
             </h1>
           
 
@@ -862,60 +862,143 @@ active
 
 
 
-	<h4 id="khởi-tạo-vpc">Khởi tạo VPC</h4>
-<p>Đảm bảo đã có IAM user có quyền Admin hoặc user có đầy đủ các quyền cần thiết. </p>
+	<h4 id="khởi-tạo-vpc">Cài đặt ArgoCD trên Cluster</h4>
 
 
 <ol>
-<li>Truy cập AWS console .</li>
+<li>Tại terminal </li>
 </ol>
 
-<ul>
-<li>Chọn Security credentials ở góc phải</li>
-</ul>
-
-<p><img src="../../image/2.prerequiste/2.1.accesskey/0.png?width=90pc" alt="Vào CloudFormation"></p>
+<pre>
+  <code>
+kubectl create namespace argocd
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+  </code>
+</pre>
 
 <ol start="2">
-<li>Kéo xuống và chọn Create access key</li>
+<li>Đợi các pod running và thay đổi svc</li>
 </ol>
 
+<pre>
+  <code>
+k edit svc argocd-server –n argocd    
+  </code>
+</pre>
 
+<ul>
+  <li>Đổi ClusterIP ở cuối thành LoadBalancer và lưu : Esc + : + wq</li>
+</ul>
 
-<p><img src="../../image/2.prerequiste/2.1.accesskey/2.png?width=90pc" alt="Create stack"></p>
 
 
 <ol start="3">
-<li>Trong giao diện Access key</li>
+<li>Copy dns loadbalancer và access</li>
 </ol>
 
-<ul>
-<li>Chọn CLI</li>
-</ul>
 
-<p><img src="../../image/2.prerequiste/2.1.accesskey/3.png?width=90pc" alt="Create stack"></p>
+
+<p><img src="../../image/4.cicd/4.2.argocd/69.png?width=90pc" alt="Create stack"></p>
 
 
 
   <ol start="4">
-<li>Còn lại để mặc định, chọn Create access key</li>
+<li>Kiểm tra password initial</li>
 </ol>
 
+<pre>
+  <code>
+k get secret –m argocd
+echo {password encode} | base64 -d    
+  </code>
+</pre>
 
-
-<p><img src="../../image/2.prerequiste/2.1.accesskey/4.png?width=90pc" alt="Create stack"></p>
+<p><img src="../../image/4.cicd/4.2.argocd/70.png?width=90pc" alt="Create stack"></p>
 
 
 
 <ol start="5">
-<li>Lưu trữ Access key để dụng cấu hình</li>
+<li>Đăng nhập bằng admin và password vừa giải mã</li>
+</ol>
+
+<ul>
+  <li>Chọn settings</li>
+</ul>
+
+
+<p><img src="../../image/4.cicd/4.2.argocd/71.png?width=90pc" alt="Create stack"></p>
+
+
+
+<ol start="6">
+<li>Chọn Repositories</li>
 </ol>
 
 
 
-<p><img src="../../image/2.prerequiste/2.1.accesskey/5.png?width=90pc" alt="Create stack"></p>
+<p><img src="../../image/4.cicd/4.2.argocd/72.png?width=90pc" alt="Create stack"></p>
 
 
+
+<ol start="7">
+<li>Tại phần connect repository</li>
+</ol>
+
+<ul>
+  <li>Method : HTTPS</li>
+  <li>Type : git</li>
+  <li>Project : default </li>
+  <li>Repository : https://github.com/HoangGuruu/deploy.git</li>
+  <li>Username : hoangguruu</li>
+  <li>Password : { Access token github} </li>
+</ul>
+
+
+<p><img src="../../image/4.cicd/4.2.argocd/74.png?width=90pc" alt="Create stack"></p>
+
+
+<ol start="8">
+<li>Chọn connect</li>
+</ol>
+
+
+
+<p><img src="../../image/4.cicd/4.2.argocd/75.png?width=90pc" alt="Create stack"></p>
+
+
+
+<ol start="9">
+<li>Chọn Applications</li>
+</ol>
+
+<ul>
+  <li>Chọn new app</li>
+</ul>
+
+
+<p><img src="../../image/4.cicd/4.2.argocd/76.png?width=90pc" alt="Create stack"></p>
+
+
+
+<ol start="10">
+<li>Tại phần New APP</li>
+</ol>
+
+<ul>
+  <li>Application Name : deploy</li>
+  <li>Project name : default</li>
+  <li>SYNC POLICY : automatic</li>
+  <li>Tích auto-create namespace</li>
+  <li>Repository URL : https://github.com/HoangGuruu/deploy.git</li>
+  <li>Path : ./</li>
+  <li>Cluster dns : https://kubernetes.default.svc</li>
+  <li>Namespace : prod</li>
+</ul>
+
+
+<p><img src="../../image/4.cicd/4.2.argocd/77.png?width=90pc" alt="Create stack"></p>
+<p><img src="../../image/4.cicd/4.2.argocd/78.png?width=90pc" alt="Create stack"></p>
+<p><img src="../../image/4.cicd/4.2.argocd/79.png?width=90pc" alt="Create stack"></p>
 
 
 

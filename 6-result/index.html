@@ -847,7 +847,7 @@
           
             <h1>
               
-              Giới thiệu
+              Kết quả của đường ống tự động triển khai
             </h1>
           
 
@@ -855,9 +855,204 @@
 
 
 
-	<h3 id="giới-thiệu">Giới thiệu</h3>
-<p>Ứng dụng web này bao gồm ba dịch vụ: <strong>Web</strong> (trang chính), <strong>Cats</strong> (trang về mèo) và <strong>Dogs</strong> (trang về chó). Trong bài workshop này, <strong>Web</strong> và <strong>Cats</strong> sẽ sử dụng loại khởi chạy <em>Amazon EC2</em> và <strong>Dogs</strong> sẽ sử dụng loại khởi chạy <em>AWS Fargate</em> trên một cluster.</p>
-<p><img src="../images/1.%20Introduce/001-introduce.png?width=90pc" alt="ConnectPrivate"></p>
+	<h3 id="giới-thiệu">Kết quả của đường ống tự động triển khai</h3>
+
+<ol start="1">
+<li>Tiến hành clone repository về</li>
+</ol>
+
+<ul>
+  <li>
+    Tại terminal
+  </li>
+</ul>
+<pre>
+  <code>
+git clone https://github.com/HoangGuruu/jenkins.git    
+  </code>
+</pre>
+
+<ul>
+  <li>
+    Điền username và access token github
+  </li>
+</ul>
+
+<p><img src="../image/6.result/94.png?width=90pc" alt="ConnectPrivate"></p>
+
+
+
+
+<ol start="2">
+<li>Tiến hành sửa đổi theo ý muốn và push code</li>
+</ol>
+
+<pre>
+  <code>
+git add .
+git commit –m “change something”
+git push
+   
+  </code>
+</pre>
+
+<ul>
+  <li>
+    Sử dụng username và access token github
+  </li>
+</ul>
+
+<p><img src="../image/6.result/95.png?width=90pc" alt="ConnectPrivate"></p>
+<p><img src="../image/6.result/96.png?width=90pc" alt="ConnectPrivate"></p>
+
+
+
+<ol start="3">
+<li>Github trigger Jenkins</li>
+</ol>
+
+
+
+<p><img src="../image/6.result/97.png?width=90pc" alt="ConnectPrivate"></p>
+
+
+<ol start="4">
+<li>Tiến hành build</li>
+</ol>
+
+
+
+<p><img src="../image/6.result/98.png?width=90pc" alt="ConnectPrivate"></p>
+
+<ol start="5">
+<li>Xem console Output để kiểm tra quá trình </li>
+</ol>
+
+
+
+<p><img src="../image/6.result/99.png?width=90pc" alt="ConnectPrivate"></p>
+
+<ol start="6">
+<li>Docker đã build đúng tag image </li>
+</ol>
+
+
+
+<p><img src="../image/6.result/100.png?width=90pc" alt="ConnectPrivate"></p>
+
+
+<ol start="7">
+<li>Đăng nhập thành công</li>
+</ol>
+
+
+
+<p><img src="../image/6.result/101.png?width=90pc" alt="ConnectPrivate"></p>
+
+
+<ol start="8">
+<li>Thay đổi tên của image trong file deployment của repository deploy trigger Argocd</li>
+</ol>
+
+
+
+<p><img src="../image/6.result/102.png?width=90pc" alt="ConnectPrivate"></p>
+
+<p><img src="../image/6.result/103.png?width=90pc" alt="ConnectPrivate"></p>
+
+<ol start="9">
+<li>Kết quả build thành công</li>
+</ol>
+
+
+
+<p><img src="../image/6.result/104.png?width=90pc" alt="ConnectPrivate"></p>
+
+
+<ol start="10">
+<li>Kiểm tra repository deploy về sự thay đổi tag name image</li>
+</ol>
+
+
+
+<p><img src="../image/6.result/105.png?width=90pc" alt="ConnectPrivate"></p>
+
+
+<ol start="11">
+<li>Truy cập Argocd và chọn SYNC nếu chưa chạy</li>
+</ol>
+
+
+
+<p><img src="../image/6.result/106.png?width=90pc" alt="ConnectPrivate"></p>
+
+<ol start="12">
+<li>Truy cập Argocd và chọn SYNC nếu chưa chạy</li>
+</ol>
+
+<pre>
+  <code>
+k get all –n prod   
+k get ingress –n argocd  
+  </code>
+</pre>
+
+<p><img src="../image/6.result/107.png?width=90pc" alt="ConnectPrivate"></p>
+
+
+<ol start="13">
+<li>Kiểm tra dns external đã setup ở Route53 có hiện không</li>
+</ol>
+
+<p><img src="../image/6.result/108.png?width=90pc" alt="ConnectPrivate"></p>
+
+
+<ol start="14">
+<li>Tiếp đến truy câp domain từ browser</li>
+</ol>
+
+<ul>
+  <li><code>showcar.hoangguruu.id.vn</code></li>
+</ul>
+
+<p><img src="../image/6.result/109.png?width=90pc" alt="ConnectPrivate"></p>
+
+
+<ol start="15">
+<li>Kiểm tra tính năng search car với API</li>
+</ol>
+
+
+<p><img src="../image/6.result/110.png?width=90pc" alt="ConnectPrivate"></p>
+
+<p><img src="../image/6.result/111.png?width=90pc" alt="ConnectPrivate"></p>
+
+<ol start="16">
+<li>Truy cập Grafana</li>
+</ol>
+
+<ul>
+  <li>Chọn Home > Dashboard</li>
+</ul>
+
+<p><img src="../image/6.result/112.png?width=90pc" alt="ConnectPrivate"></p>
+
+
+<ol start="17">
+<li>Chọn Pod hoặc bất cứ tài nguyên cần giám sát</li>
+</ol>
+
+
+<p><img src="../image/6.result/113.png?width=90pc" alt="ConnectPrivate"></p>
+
+<ol start="18">
+<li>Theo dõi đồ thị kết quả</li>
+</ol>
+
+
+<p><img src="../image/6.result/114.png?width=90pc" alt="ConnectPrivate"></p>
+<p><img src="../image/6.result/115.png?width=90pc" alt="ConnectPrivate"></p>
+
 
 
 

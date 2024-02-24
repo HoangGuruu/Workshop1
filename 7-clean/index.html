@@ -847,7 +847,7 @@
           
             <h1>
               
-              Giới thiệu
+              Dọn dẹp tài nguyên
             </h1>
           
 
@@ -855,11 +855,73 @@
 
 
 
-	<h3 id="giới-thiệu">Giới thiệu</h3>
-<p>Ứng dụng web này bao gồm ba dịch vụ: <strong>Web</strong> (trang chính), <strong>Cats</strong> (trang về mèo) và <strong>Dogs</strong> (trang về chó). Trong bài workshop này, <strong>Web</strong> và <strong>Cats</strong> sẽ sử dụng loại khởi chạy <em>Amazon EC2</em> và <strong>Dogs</strong> sẽ sử dụng loại khởi chạy <em>AWS Fargate</em> trên một cluster.</p>
-<p><img src="../images/1.%20Introduce/001-introduce.png?width=90pc" alt="ConnectPrivate"></p>
+	<h3 id="giới-thiệu">Dọn dẹp tài nguyên</h3>
+
+<ol start="1">
+<li>Xóa hết các name space để xóa tài nguyên</li>
+</ol>
+
+<pre>
+  <code>
+k get ns
+k delete ns prod monitor argocd
+  </code>
+</pre>
+
+<p><img src="../image/7.clean/117.png?width=90pc" alt="ConnectPrivate"></p>
 
 
+<ol start="2">
+<li>Xóa node group bằng eksclt</li>
+</ol>
+
+<pre>
+  <code>
+eksctl delete nodegroup --cluster=eksdemo1 --name=eksdemo1-ng-public1
+  </code>
+</pre>
+
+<p><img src="../image/7.clean/118.png?width=90pc" alt="ConnectPrivate"></p>
+
+
+<ol start="3">
+<li>Kiểm tra trong Services > EKS > Node Group</li>
+</ol>
+
+
+<p><img src="../image/7.clean/119.png?width=90pc" alt="ConnectPrivate"></p>
+
+<ol start="4">
+<li>Kiểm tra trong Services > EKS > Node Group</li>
+</ol>
+
+<pre>
+  <code>
+eksctl delete cluster eksdemo1    
+  </code>
+</pre>
+<p><img src="../image/7.clean/120.png?width=90pc" alt="ConnectPrivate"></p>
+
+<ol start="5">
+<li>Kiểm tra trong Services > EKS</li>
+</ol>
+
+<p><img src="../image/7.clean/121.png?width=90pc" alt="ConnectPrivate"></p>
+
+
+<ol start="6">
+<li>Xóa route53 hosted dns</li>
+</ol>
+
+<p><img src="../image/7.clean/122.png?width=90pc" alt="ConnectPrivate"></p>
+
+
+<ol start="7">
+<li>Chọn domain và Delete</li>
+</ol>
+
+<p><img src="../image/7.clean/123.png?width=90pc" alt="ConnectPrivate"></p>
+<p><img src="../image/7.clean/124.png?width=90pc" alt="ConnectPrivate"></p>
 
 
 

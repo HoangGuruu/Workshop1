@@ -854,7 +854,7 @@ active
           
             <h1>
               
-              Khởi tạo VPC
+              Cài đặt StorageClass EBS cho cluster
             </h1>
           
 
@@ -862,62 +862,139 @@ active
 
 
 
-	<h4 id="khởi-tạo-vpc">Khởi tạo VPC</h4>
-  <p>Đảm bảo đã có IAM user có quyền Admin hoặc user có đầy đủ các quyền cần thiết. </p>
-
+	<h4 id="khởi-tạo-vpc">Cài đặt StorageClass EBS cho cluster</h4>
 
   <ol>
-  <li>Truy cập AWS console .</li>
+  <li>Tại AWS console go to IAM Policy</li>
   </ol>
   
   <ul>
-  <li>Chọn Security credentials ở góc phải</li>
+  <li>Chọn Create policy</li>
   </ul>
   
-  <p><img src="../../image/2.prerequiste/2.1.accesskey/0.png?width=90pc" alt="Vào CloudFormation"></p>
+  <p><img src="../../image/3.eks/3.5.storageclass-ebs/4.png?width=90pc" alt="Vào CloudFormation"></p>
   
   <ol start="2">
-  <li>Kéo xuống và chọn Create access key</li>
+  <li>Chọn JSON</li>
   </ol>
   
   
   
-  <p><img src="../../image/2.prerequiste/2.1.accesskey/2.png?width=90pc" alt="Create stack"></p>
+  <p><img src="../../image/3.eks/3.5.storageclass-ebs/5.png?width=90pc" alt="Create stack"></p>
   
   
   <ol start="3">
-  <li>Trong giao diện Access key</li>
+  <li>Copy and paste </li>
   </ol>
   
-  <ul>
-  <li>Chọn CLI</li>
-  </ul>
+<pre>
+  <code>
+    {
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ec2:AttachVolume",
+        "ec2:CreateSnapshot",
+        "ec2:CreateTags",
+        "ec2:CreateVolume",
+        "ec2:DeleteSnapshot",
+        "ec2:DeleteTags",
+        "ec2:DeleteVolume",
+        "ec2:DescribeInstances",
+        "ec2:DescribeSnapshots",
+        "ec2:DescribeTags",
+        "ec2:DescribeVolumes",
+        "ec2:DetachVolume"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+
+  </code>
+</pre>
+
+
   
-  <p><img src="../../image/2.prerequiste/2.1.accesskey/3.png?width=90pc" alt="Create stack"></p>
+  <p><img src="../../image/3.eks/3.5.storageclass-ebs/6.png?width=90pc" alt="Create stack"></p>
+  <p><img src="../../image/3.eks/3.5.storageclass-ebs/7.png?width=90pc" alt="Create stack"></p>
   
   
   
     <ol start="4">
-  <li>Còn lại để mặc định, chọn Create access key</li>
+  <li>Chọn Next</li>
   </ol>
   
   
   
-  <p><img src="../../image/2.prerequiste/2.1.accesskey/4.png?width=90pc" alt="Create stack"></p>
+  <p><img src="../../image/3.eks/3.5.storageclass-ebs/8.png?width=90pc" alt="Create stack"></p>
   
   
   
   <ol start="5">
-  <li>Lưu trữ Access key để dụng cấu hình</li>
+  <li>Tại phần review and create</li>
   </ol>
   
+  <ul>
+    <li>Policy name : Amazon_EBS_CSI_Driver</li>
+    <li>Description : Policy for EC2 Instances to access Elastic Block Store</li>
+  </ul>
+  
+  <p><img src="../../image/3.eks/3.5.storageclass-ebs/9.png?width=90pc" alt="Create stack"></p>
   
   
-  <p><img src="../../image/2.prerequiste/2.1.accesskey/5.png?width=90pc" alt="Create stack"></p>
-  
-  
+ <ol start="6">
+  <li>Chọn Create policy</li>
+  </ol>
+
+  <p><img src="../../image/3.eks/3.5.storageclass-ebs/10.png?width=90pc" alt="Create stack"></p>
   
 
+  <ol start="7">
+    <li>Kiểm tra policy vừa tạo</li>
+    </ol>
+  
+    <p><img src="../../image/3.eks/3.5.storageclass-ebs/11.png?width=90pc" alt="Create stack"></p>
+    
+  
+
+<ol start="8">
+<li>Thêm policy cho role node group</li>
+</ol>
+
+
+<ul>
+  <li>Đi đến Services -> IAM -> Roles </li>
+  <li>Tìm kiếm role với tên **eksctl-eksdemo1-nodegroup** và mở</li>
+  <li>Chọn **Permissions** </li>
+  <li>Chọn **Attach Policies**</li>
+  <li>Tìm kiếm **Amazon_EBS_CSI_Driver** và chọn **Attach Policy**</li>
+</ul>
+
+
+<ol start="9">
+<li>Triển khai EBS CSI Driver</li>
+</ol>
+
+<ul>
+  <li>Tại terminal</li>
+</ul>
+
+<pre>
+  <code>
+# Deploy EBS CSI Driver
+kubectl apply -k "github.com/kubernetes-sigs/aws-ebs-csi-driver/deploy/kubernetes/overlays/stable/?ref=master"
+
+# Verify ebs-csi pods running
+kubectl get pods -n kube-system
+  </code>
+</pre>
+
+<p><img src="../../image/3.eks/3.5.storageclass-ebs/39.png?width=90pc" alt="Create stack"></p>
+    
+  
 
 <footer class=" footline" >
 	

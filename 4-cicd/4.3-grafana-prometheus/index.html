@@ -854,7 +854,7 @@ active
           
             <h1>
               
-              Khởi tạo VPC
+              Cài đặt Grafana-Prometheus trên Cluster
             </h1>
           
 
@@ -862,60 +862,61 @@ active
 
 
 
-	<h4 id="khởi-tạo-vpc">Khởi tạo VPC</h4>
-<p>Đảm bảo đã có IAM user có quyền Admin hoặc user có đầy đủ các quyền cần thiết. </p>
+	<h4 id="khởi-tạo-vpc">Cài đặt Grafana-Prometheus trên Cluster</h4>
 
 
 <ol>
-<li>Truy cập AWS console .</li>
+<li>Cài đặt Grafana-Prometheus dùng helm</li>
 </ol>
 
 <ul>
-<li>Chọn Security credentials ở góc phải</li>
+<li>Tại terminal</li>
 </ul>
 
-<p><img src="../../image/2.prerequiste/2.1.accesskey/0.png?width=90pc" alt="Vào CloudFormation"></p>
+<pre>
+  <code>
+k create ns monitor
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo update
+helm install grafana prometheus-community/kube-prometheus-stack –n monitor
+k edit svc grafana –n monitor
+  </code>
+</pre>
 
 <ol start="2">
-<li>Kéo xuống và chọn Create access key</li>
+<li>Thay đổi trong service : ClusterIP > LoadBalancer</li>
 </ol>
-
-
-
-<p><img src="../../image/2.prerequiste/2.1.accesskey/2.png?width=90pc" alt="Create stack"></p>
-
 
 <ol start="3">
-<li>Trong giao diện Access key</li>
-</ol>
-
-<ul>
-<li>Chọn CLI</li>
-</ul>
-
-<p><img src="../../image/2.prerequiste/2.1.accesskey/3.png?width=90pc" alt="Create stack"></p>
-
-
-
-  <ol start="4">
-<li>Còn lại để mặc định, chọn Create access key</li>
+<li>Sử dụng loadbalancer dns để truy cập browser</li>
 </ol>
 
 
+<pre>
+  <code>
+k get svc grafana –n monitor
+  </code>
+</pre>
 
-<p><img src="../../image/2.prerequiste/2.1.accesskey/4.png?width=90pc" alt="Create stack"></p>
+<p><img src="../../image/4.cicd/4.3.grafana-prometheus/81.png?width=90pc" alt="Create stack"></p>
+
+
+<ol start="4">
+<li>Lấy mật khẩu đăng nhập</li>
+</ol>
+
+
+<p><img src="../../image/4.cicd/4.3.grafana-prometheus/82.png?width=90pc" alt="Create stack"></p>
 
 
 
-<ol start="5">
-<li>Lưu trữ Access key để dụng cấu hình</li>
+  <ol start="5">
+<li>Màn hình chính của Grafana</li>
 </ol>
 
 
 
-<p><img src="../../image/2.prerequiste/2.1.accesskey/5.png?width=90pc" alt="Create stack"></p>
-
-
+<p><img src="../../image/4.cicd/4.3.grafana-prometheus/83.png?width=90pc" alt="Create stack"></p>
 
 
 
